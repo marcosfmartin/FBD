@@ -1,0 +1,496 @@
+------------- |UNIDADE ACADEMICA| -------------
+
+INSERT INTO uni_academica (cod_ua, nome, estado, cidade, rua, cep)
+VALUES (333, 'Centro de Ciências', 'Ceará', 'Fortaleza', 'Av Mister Hull', 60000000)
+;
+INSERT INTO uni_academica (cod_ua, nome, estado, cidade, rua, cep)
+VALUES (123, 'Centro de Tecnologia', 'Ceará', 'Aquiraz', 'Av Humberto Monte', 60000999)
+;
+INSERT INTO uni_academica (cod_ua, nome, estado, cidade, rua, cep)
+VALUES (531, 'ICA', 'Ceará', 'Maracanaú', 'Av Humberto Monte', 60555000)
+;
+INSERT INTO uni_academica (cod_ua, nome, estado, cidade, rua, cep)
+VALUES (765, 'Centro de Humanidades', 'São Paulo', 'São Paulo', 'Av Paulista', 12006001)
+;
+INSERT INTO uni_academica (cod_ua, nome, estado, cidade, rua, cep)
+VALUES (992, 'FEAAC', 'São Paulo', 'Santos', 'Av do CBJr', 12246001)
+;
+INSERT INTO uni_academica (cod_ua, nome, estado, cidade, rua, cep)
+VALUES (451, 'Centro de Saúde', 'Rio de Janeiro', 'Barra', 'AV da Bala', 219021041)
+;
+------------- |DEPARTAMENTO| -------------
+;
+INSERT INTO departamento (cod_dep, nome, estado, cidade, rua, cep, cod_ua)
+VALUES (333, 'Computação', 'Ceará', 'Fortaleza', 'Av Humberto Monte', 60000000, 333)
+;
+INSERT INTO departamento (cod_dep, nome, estado, cidade, rua, cep, cod_ua)
+VALUES (123, 'Geografia', 'Ceará', 'Fortaleza', 'Av Mister Hull', 60000000, 333)
+;
+INSERT INTO departamento (cod_dep, nome, estado, cidade, rua, cep, cod_ua)
+VALUES (531, 'FEACC', 'Ceará', 'Maracanaú', 'Av da Universidade', 60555000, 992)
+;
+INSERT INTO departamento (cod_dep, nome, estado, cidade, rua, cep, cod_ua)
+VALUES (765, 'Engenharia', 'São Paulo', 'São Paulo', 'Av Paulista', 12006001, 123)
+;
+INSERT INTO departamento (cod_dep, nome, estado, cidade, rua, cep, cod_ua)
+VALUES (992, 'História', 'São Paulo', 'Santos', 'Av do CBJr', 12246001, 765)
+;
+INSERT INTO departamento (cod_dep, nome, estado, cidade, rua, cep, cod_ua)
+VALUES (451, 'Medicina', 'Rio de Janeiro', 'Barra', 'Av da Bala', 219021041, 451)
+;
+------------- |CURSO| -------------
+;
+INSERT INTO curso (cod_curso, nome)
+VALUES (512, 'Ciência da Computação')
+;
+INSERT INTO curso (cod_curso, nome)
+VALUES (992, 'Contábeis')
+;
+INSERT INTO curso (cod_curso, nome)
+VALUES (7412, 'Medicina')
+;
+INSERT INTO curso (cod_curso, nome)
+VALUES (2412, 'Engenharia de Computação')
+;
+INSERT INTO curso (cod_curso, nome)
+VALUES (4123, 'Matemática Industrial')
+;
+INSERT INTO curso (cod_curso, nome)
+VALUES (5113, 'Administração')
+;
+INSERT INTO curso (cod_curso, nome)
+VALUES (6541, 'Direito')
+;
+INSERT INTO curso (cod_curso, nome)
+VALUES (7564, 'Filosofia')
+;
+INSERT INTO curso (cod_curso, nome)
+VALUES (3531, 'Geologia')
+;
+INSERT INTO curso (cod_curso, nome)
+VALUES (5312, 'Farmácia')
+;
+
+------------- |DISCIPLINA| -------------
+;
+INSERT INTO disciplina (cod_disc, nome, credito)
+VALUES (512, 'FBD', 6)
+;
+INSERT INTO disciplina (cod_disc, nome, credito)
+VALUES (992, 'FUP', 4)
+;
+INSERT INTO disciplina (cod_disc, nome, credito)
+VALUES (7412, 'Contabilidade', 4)
+;
+INSERT INTO disciplina (cod_disc, nome, credito)
+VALUES (2412, 'Matemática Discreta', 6)
+;
+INSERT INTO disciplina (cod_disc, nome, credito)
+VALUES (4123, 'Patologias', 6)
+;
+INSERT INTO disciplina (cod_disc, nome, credito)
+VALUES (5113, 'Cálculo 1', 6)
+;
+INSERT INTO disciplina (cod_disc, nome, credito)
+VALUES (9389, 'Estruturas de Dados', 4)
+;
+INSERT INTO disciplina (cod_disc, nome, credito)
+VALUES (3721, 'Rochas', 4)
+;
+INSERT INTO disciplina (cod_disc, nome, credito)
+VALUES (3271, 'Métodos Numéricos 1', 4)
+;
+INSERT INTO disciplina (cod_disc, nome, credito)
+VALUES (5121, 'Algoritmos em Grafos', 4)
+;
+INSERT INTO disciplina (cod_disc, nome, credito)
+VALUES (8312, 'SGBD', 6)
+;
+
+------------- |ALUNO| -------------
+
+INSERT INTO aluno (mat_aluno, nome, cpf, rg,  estado,  cidade, rua, cep, cod_curso)
+VALUES (23123, 'Caio Henrique Pires', 24952316, 401638157, 'Maranhão', 'São Luís', 'Rua Equador', 65067130, 512)
+;
+INSERT INTO aluno (mat_aluno, nome, cpf, rg,  estado,  cidade, rua, cep, cod_curso)
+VALUES (12314, 'Isabella Olivia Laís Pereira', 63889661, 273345631, 'Bahia', 'Paulo Afonso', 'Rua Divinópolis', 48604544, 7412)
+;
+INSERT INTO aluno (mat_aluno, nome, cpf, rg,  estado,  cidade, rua, cep, cod_curso)
+VALUES (12311, 'Aline Manuela Viana', 59631041, 186166059, 'Minas', 'Santa Luzia', 'Rua Alcides Martins da Conceição', 33010472, 512)
+;
+INSERT INTO aluno (mat_aluno, nome, cpf, rg,  estado,  cidade, rua, cep, cod_curso)
+VALUES (31211, 'César Diogo Baptista', 861254946, 206829541, 'Alagoas', 'Maceió', 'Tabuleiro do Martins', 57081086, 7412)
+;
+INSERT INTO aluno (mat_aluno, nome, cpf, rg,  estado,  cidade, rua, cep, cod_curso)
+VALUES (12343, 'Mateus Pedro Henrique Peixoto', 944001791, 320286502, 'Distrito Federal', 'Brasília', 'Quadra EQNP 16/20 Bloco G', 72231567, 6541)
+;
+INSERT INTO aluno (mat_aluno, nome, cpf, rg,  estado,  cidade, rua, cep, cod_curso)
+VALUES (22113, 'Elza Eliane Joana Peixoto', 909787708, 116171753, 'Paraná', 'Umuarama', 'Zona I', 87503690, 512)
+;
+INSERT INTO aluno (mat_aluno, nome, cpf, rg,  estado,  cidade, rua, cep, cod_curso)
+VALUES (22134, 'Cecília Maria Lúcia Corte Real', 948514357, 428711005, 'Goiás', 'Cidade Ocidental', 'Quadra SQ 21 Quadra 10', 72881110, 992)
+;
+INSERT INTO aluno (mat_aluno, nome, cpf, rg,  estado,  cidade, rua, cep, cod_curso)
+VALUES (22412, 'Giovanni Marcelo Caio Ferreira', 422775601, 374919136, 'Santa Catarina', 'Blumenau', 'Rua Quilombo', 89022170, 3531)
+;
+------------- |PROFESSOR| -------------
+
+INSERT INTO professor (mat_prof, nome, cpf, rg,  estado,  cidade, rua, cep, cod_ua_diretor, cod_curso_coord, cod_dep_chefe, lotacao, salario)
+VALUES (3123, 'Luís Sebastião Ribeiro', 822474572, 252162419, 'Roraima', 'Boa Vista', 'Avenida Major Williams', 69306705, NULL, 512, NULL, 333, 1234.00)
+;
+INSERT INTO professor (mat_prof, nome, cpf, rg,  estado,  cidade, rua, cep, cod_ua_diretor, cod_curso_coord, cod_dep_chefe, lotacao, salario)
+VALUES (5334, 'Antonio Edson dos Santos', 359291828, 135583718, 'Bahia', 'Candeias', 'Praça Doutor Gualberto Fontes', 43805901, 333, NULL, NULL, 333, 4412.00)
+;
+INSERT INTO professor (mat_prof, nome, cpf, rg,  estado,  cidade, rua, cep, cod_ua_diretor, cod_curso_coord, cod_dep_chefe, lotacao, salario)
+VALUES (3124, 'Kevin Otávio Nascimento', 323760558, 143341601, 'Tocantins', 'Araguaína', 'Rua Sales Paulo', 77813220, NULL, NULL, 531, 531, 5122.00)
+;
+INSERT INTO professor (mat_prof, nome, cpf, rg,  estado,  cidade, rua, cep, cod_ua_diretor, cod_curso_coord, cod_dep_chefe, lotacao, salario)
+VALUES (5123, 'Vitória Gabrielly Santos', 669191458, 104327534, 'Maranhão', 'Timon', 'Beco Paulo Ramos', 65630090, NULL, 5113, NULL, 531, 5612.00)
+;
+INSERT INTO professor (mat_prof, nome, cpf, rg,  estado,  cidade, rua, cep, cod_ua_diretor, cod_curso_coord, cod_dep_chefe, lotacao, salario)
+VALUES (7575, 'Eliane Márcia Castro', 682047200, 378261642, 'Rio Grande do Sul', 'Porto Alegre', 'Rua José do Patrocínio', 90050004, 123, NULL, NULL, 123, 7123.00)
+;
+INSERT INTO professor (mat_prof, nome, cpf, rg,  estado,  cidade, rua, cep, cod_ua_diretor, cod_curso_coord, cod_dep_chefe, lotacao, salario)
+VALUES (6421, 'Daiane Beatriz Almeida', 872810664, 309879747, 'Ceará', 'Gurupi', 'Rua S-011', 77435165, NULL, NULL, NULL, 451, 6124.00)
+;
+INSERT INTO professor (mat_prof, nome, cpf, rg,  estado,  cidade, rua, cep, cod_ua_diretor, cod_curso_coord, cod_dep_chefe, lotacao, salario)
+VALUES (5213, 'Rebeca Lívia Silveira', 822626863, 410395146, 'Ceará', 'Crato', 'Rua José Figueiredo Filho', 63111290, NULL, NULL, NULL, 765, 6122.00)
+;
+
+------------- |TELEFONES_UA| -------------
+
+INSERT INTO telefone_ua (num_fone, cod_ua, tipo_fone)
+VALUES (8827570683, 123, 'fixo');
+
+INSERT INTO telefone_ua (num_fone, cod_ua, tipo_fone)
+VALUES (88992242556, 333, 'celular');
+
+INSERT INTO telefone_ua (num_fone, cod_ua, tipo_fone)
+VALUES (9827287936, 451, 'fixo');
+
+INSERT INTO telefone_ua (num_fone, cod_ua, tipo_fone)
+VALUES (98992071789, 531, 'fixo');
+
+INSERT INTO telefone_ua (num_fone, cod_ua, tipo_fone)
+VALUES (8235383107, 765, 'fixo');
+
+INSERT INTO telefone_ua (num_fone, cod_ua, tipo_fone)
+VALUES (82989260774, 992, 'celular');
+
+INSERT INTO telefone_ua (num_fone, cod_ua, tipo_fone)
+VALUES (8536010706, 333, 'fixo');
+
+------------- |TELEFONES_DEP| -------------
+
+INSERT INTO telefone_dep (num_fone, cod_dep, tipo_fone)
+VALUES (8827570683, 123, 'fixo');
+
+INSERT INTO telefone_dep (num_fone, cod_dep, tipo_fone)
+VALUES (88992242556, 333, 'celular');
+
+INSERT INTO telefone_dep (num_fone, cod_dep, tipo_fone)
+VALUES (9827287936, 451, 'fixo');
+
+INSERT INTO telefone_dep (num_fone, cod_dep, tipo_fone)
+VALUES (98992071789, 531, 'fixo');
+
+INSERT INTO telefone_dep (num_fone, cod_dep, tipo_fone)
+VALUES (8235383107, 765, 'fixo');
+
+INSERT INTO telefone_dep (num_fone, cod_dep, tipo_fone)
+VALUES (82989260774, 992, 'celular');
+
+INSERT INTO telefone_dep (num_fone, cod_dep, tipo_fone)
+VALUES (8536010706, 333, 'fixo');
+
+------------- |DEP_CURSO| -------------
+
+INSERT INTO dep_curso (cod_dep, cod_curso)
+VALUES (123, 3531);
+
+INSERT INTO dep_curso (cod_dep, cod_curso)
+VALUES (333, 512);
+
+INSERT INTO dep_curso (cod_dep, cod_curso)
+VALUES (451, 7412);
+
+INSERT INTO dep_curso (cod_dep, cod_curso)
+VALUES (531, 992);
+
+INSERT INTO dep_curso (cod_dep, cod_curso)
+VALUES (531, 5113);
+
+INSERT INTO dep_curso (cod_dep, cod_curso)
+VALUES (765, 2412);
+
+INSERT INTO dep_curso (cod_dep, cod_curso)
+VALUES (992, 6541);
+
+INSERT INTO dep_curso (cod_dep, cod_curso)
+VALUES (333, 4123);
+
+INSERT INTO dep_curso (cod_dep, cod_curso)
+VALUES (451, 5312);
+
+
+------------- |CURSO_DISC| -------------
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (512, 512);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (992, 512);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (2412, 512);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (3271, 512);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (5113, 512);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (5121, 512);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (8312, 512);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (512, 2412);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (992, 2412);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (5113, 2412);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (3271, 2412);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (7412, 992);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (5113, 992);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (3721, 3531);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (512, 4123);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (992, 4123);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (5113, 4123);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (5121, 4123);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (7412, 5113);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (5113, 5113);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (4123, 5312);
+
+INSERT INTO curso_disc (cod_disc, cod_curso)
+VALUES (4123, 7412);
+
+
+------------- |PROF_DISC| -------------
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (5334, 512, 2);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (5334, 512, 4);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (5334, 992, 3);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (5334, 5121, 5);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (3123, 8312, 5);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (3123, 8312, 7);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (3123, 9389, 2);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (3123, 2412, 1);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (3123, 2412, 3);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (5334, 3271, 4);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (5213, 5113, 1);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (5213, 5113, 2);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (5213, 3271, 5);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (5213, 2412, 1);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (6421, 4123, 3);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (6421, 4123, 5);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (6421, 4123, 7);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (7575, 3721, 1);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (7575, 3721, 3);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (3124, 5113, 1);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (3124, 5113, 2);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (3124, 7412, 1);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (5123, 7412, 2);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (5123, 7412, 3);
+
+INSERT INTO prof_disc (mat_prof, cod_disc, semestre)
+VALUES (5123, 5113, 1);
+
+------------- |ALUNO_DISC| -------------
+
+INSERT INTO aluno_disc (cod_disc, mat_aluno, semestre, ap1, ap2, af)
+VALUES (3721, 22412, 1, 4, 5, 1);
+
+INSERT INTO aluno_disc (cod_disc, mat_aluno, semestre, ap1, ap2, af)
+VALUES (3721, 22412, 3, 8, 7, NULL);
+
+INSERT INTO aluno_disc (cod_disc, mat_aluno, semestre, ap1, ap2, af)
+VALUES (5113, 22412, 1, 6, 8, NULL);
+
+INSERT INTO aluno_disc (cod_disc, mat_aluno, semestre, ap1, ap2, af)
+VALUES (4123, 31211, 3, 4, 6, 3);
+
+INSERT INTO aluno_disc (cod_disc, mat_aluno, semestre, ap1, ap2, af)
+VALUES (4123, 31211, 5, 6, 6, 7);
+
+INSERT INTO aluno_disc (cod_disc, mat_aluno, semestre, ap1, ap2, af)
+VALUES (4123, 12314, 5, 9, 10, NULL);
+
+INSERT INTO aluno_disc (cod_disc, mat_aluno, semestre, ap1, ap2, af)
+VALUES (7412, 22134, 2, 7, 2, 4);
+
+INSERT INTO aluno_disc (cod_disc, mat_aluno, semestre, ap1, ap2, af)
+VALUES (7412, 22134, 3, 8, 6, NULL);
+
+INSERT INTO aluno_disc (cod_disc, mat_aluno, semestre, ap1, ap2, af)
+VALUES (5113, 22134, 2, 9, 6, NULL);
+
+INSERT INTO aluno_disc (cod_disc, mat_aluno, semestre, ap1, ap2, af)
+VALUES (5113, 22134, 1, 3, 2, 1);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (12343, 7412, 3, 9, 9, NULL);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (12343, 5113, 3, 7, 6, 6);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (12311, 512, 2, 3, 5, 4);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (12311, 512, 4, 8, 7, NULL);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (12311, 992, 3, 10, 9, NULL);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (12311, 2412, 1, 7, 8, NULL);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (12311, 3271, 4, 7, 5, NULL);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (12311, 3271, 5, 8, 7, NULL);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (22113, 3271, 4, 8, 7, NULL);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (22113, 5113, 1, 5, 4, 5);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (22113, 5113, 2, 7, 7, NULL);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (22113, 9389, 2, 7, 6, 8);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (22113, 512, 4, 8, 10, NULL);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (22113, 8312, 5, 5, 5, 5);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (23123, 2412, 3, 10, 10, NULL);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (23123, 9389, 2, 9, 9, NULL);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (23123, 5121, 5, 7, 8, NULL);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (23123, 512, 2, 5, 4, 4);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (23123, 512, 4, 5, 6, 7);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (23123, 8312, 7, 6, 5, 8);
+
+INSERT INTO aluno_disc (mat_aluno, cod_disc, semestre, ap1, ap2, af)
+VALUES (23123, 3271, 5, 6, 6, NULL);
+
+
+------------- |PRE-REQUISITO| -------------
+
+INSERT INTO pre_req (cod_disc, cod_pre_req)
+VALUES (9389, 2412);
+
+INSERT INTO pre_req (cod_disc, cod_pre_req)
+VALUES (5121, 9389);
+
+INSERT INTO pre_req (cod_disc, cod_pre_req)
+VALUES (8312, 512);
+
+INSERT INTO pre_req (cod_disc, cod_pre_req)
+VALUES (7412, 5113);
+
+INSERT INTO pre_req (cod_disc, cod_pre_req)
+VALUES (3271, 992);
+
+INSERT INTO pre_req (cod_disc, cod_pre_req)
+VALUES (3271, 5113);

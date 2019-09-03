@@ -1,0 +1,45 @@
+DROP FUNCTION IF EXISTS disc_aprovadas (matricula smallint);
+CREATE OR REPLACE FUNCTION disc_aprovadas (matricula smallint)
+returns table (
+			   	Codigo smallint,
+			  	Nome_Disciplina varchar(50),
+				Credito smallint,
+				Matricula_Aluno smallint,
+				Nome varchar(50)
+			  	)
+as $$
+begin
+IF matricula IS null THEN
+        return query ( 
+               SELECT d.cod_disc, d.nome, d.credito, al.mat_aluno, al.nome FROM disciplina d
+				INNER JOIN aluno_disc aldisc ON d.cod_disc = aldisc.cod_disc
+                INNER JOIN aluno al       ON aldisc.mat_aluno = al.mat_aluno
+                Where d.cod_disc in (select cod_disc from aluno_disc aldisc where
+				   ((aldisc.ap1+aldisc.ap2/2)>=7 OR ((aldisc.ap1+aldisc.ap2/2)+aldisc.af)/2>=5))
+				order by al.mat_aluno);
+				
+ELSE
+return query( 
+               SELECT d.cod_disc, d.nome, d.credito, al.mat_aluno, al.nome FROM disciplina d
+				INNER JOIN aluno_disc aldisc ON d.cod_disc = aldisc.cod_disc
+                INNER JOIN aluno al ON ad.mat_aluno = al.mat_aluno
+                Where d.cod_disc in (select cod_disc from aluno_disc aldisc where
+				   ((aldisc.ap1+aldisc.ap2/2)>=7 OR ((aldisc.ap1+aldisc.ap2/2)+aldisc.af)/2>=5)) AND al.mat_aluno=matricula
+				   order by al.mat_aluno);
+
+end if;			   
+end;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE VIEW visao as
+CREATE VIEW view_questao2(nome_aluno, nome_curso, quantidade_disciplina, quantidade_credito) 
+AS
+    SELECT al.nome, c.nome, COUNT(d.cod_disc), SUM(d.credito)
+      FROM aluno al
+     INNER JOIN curso c       ON al.cod_curso = c.cod_curso
+     INNER JOIN aluno_disc aldisc ON al.mat_aluno = aldisc.mat_aluno
+     INNER JOIN disciplina d  ON aldisc.cod_disc = d.cod_disc
+      WHERE d.cod_disc IN (SELECT disc.cod_disc FROM disciplina dis
+                            INNER JOIN aluno_disc adisc2 ON adisc2.cod_disc = disc.cod_disc 
+                            INNER JOIN aluno al2 ON al2.mat_aluno = adisc2.mat_aluno
+                            WHERE (((adisc2.ap1 + adisc2.ap2) / 2) >= 7) OR ((((adisc2.ap1 + adisc2.ap2) / 2 + adisc2.af) / 2) >= 5) AND al2.mat_aluno = al.mat_aluno)

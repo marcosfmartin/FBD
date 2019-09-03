@@ -1,0 +1,189 @@
+DROP TABLE IF EXISTS gravadora cascade;
+CREATE TABLE gravadora (
+id_grav smallint PRIMARY KEY,
+grav_nome text NOT NULL,
+grav_ender text NOT NULL,
+grav_fone integer[] NOT NULL,
+grav_url text NOT NULL
+);
+
+DROP TABLE IF EXISTS album cascade;
+CREATE TABLE album
+(
+id_album smallint PRIMARY KEY,
+album_nome text NOT NULL,
+album_descrip text NOT NULL,
+album_dt_compra date NOT NULL,
+album_tipo_compra boolean NOT NULL, -- 0 para digital, 1 para físico
+album_preço_compra numeric(2) NOT NULL,
+album_id_grav smallint NOT NULL,
+CONSTRAINT al_FK_id_grav FOREIGN KEY (album_id_grav) REFERENCES gravadora (id_grav)
+
+
+);
+
+
+DROP TABLE IF EXISTS tipo_comp cascade;
+CREATE TABLE tipo_comp
+(
+id_tcomp smallint PRIMARY KEY,
+tcomp_descrip text NOT NULL
+
+);
+
+
+DROP TABLE IF EXISTS faixa cascade;
+CREATE TABLE faixa
+(
+id_faixa smallint PRIMARY KEY,
+faixa_id_album smallint NOT NULL,
+faixa_nome text NOT NULL,
+faixa_posicao smallint NOT NULL,
+faixa_descrip text NOT NULL,
+faixa_tempo interval NOT NULL,
+faixa_tipo_grav boolean NOT NULL, -- 0 para ADD, 1 para DDD
+faixa_id_tcomp smallint NOT NULL,
+CONSTRAINT faixa_FK_id_tcomp FOREIGN KEY (faixa_id_tcomp) REFERENCES tipo_comp (id_tcomp),
+CONSTRAINT faixa_FK_id_album FOREIGN KEY (faixa_id_album) REFERENCES album (id_album),
+unique (faixa_id_album, faixa_posicao)
+
+);
+
+
+
+
+DROP TABLE IF EXISTS interprete cascade;
+CREATE TABLE interprete
+(
+id_inter smallint PRIMARY KEY,
+interprete_nome text NOT NULL,
+interprete_tipo text NOT NULL
+
+);
+
+
+DROP TABLE IF EXISTS periodo cascade;
+CREATE TABLE periodo
+(
+id_periodo smallint PRIMARY KEY,
+periodo_dt_inicio date NOT NULL,
+periodo_dt_fim date DEFAULT NULL,
+periodo_descrip text NOT NULL
+);
+
+
+DROP TABLE IF EXISTS compositor cascade;
+CREATE TABLE compositor
+(
+id_comp smallint PRIMARY KEY,
+comp_nome text NOT NULL,
+comp_dt_nasc date NOT NULL,
+comp_dt_morte date DEFAULT NULL,
+comp_id_periodo smallint,
+CONSTRAINT comp_FK_id_periodo FOREIGN KEY (comp_id_periodo) REFERENCES periodo (id_periodo)  
+);
+
+DROP TABLE IF EXISTS compositorXfaixa cascade;
+CREATE TABLE compositorXfaixa
+(
+id_comp_faixa smallint PRIMARY KEY,
+id_comp smallint NOT NULL,
+id_faixa smallint NOT NULL,
+CONSTRAINT compX_FK_id_comp FOREIGN KEY (id_comp) REFERENCES compositor (id_comp),
+CONSTRAINT compX_FK_id_faixa FOREIGN KEY (id_faixa) REFERENCES faixa (id_faixa)
+);
+
+
+DROP TABLE IF EXISTS interpreteXfaixa cascade;
+CREATE TABLE interpreteXfaixa
+(
+id_inter_faixa smallint PRIMARY KEY,
+id_inter smallint NOT NULL,
+id_faixa smallint NOT NULL,
+CONSTRAINT interX_FK_id_inter FOREIGN KEY (id_inter) REFERENCES interprete (id_inter),
+CONSTRAINT interX_FK_id_faixa FOREIGN KEY (id_faixa) REFERENCES faixa (id_faixa)
+);
+
+
+
+
+
+DROP TABLE IF EXISTS playlist cascade;
+CREATE TABLE playlist (
+id_play smallint PRIMARY KEY,
+play_nome text NOT NULL,
+play_dt date NOT NULL
+-- play_tempo time NOT NULL PRECISA PEGAR DOS TEMPOS DAS FAIXAS
+);
+
+
+DROP TABLE IF EXISTS playlistXfaixa cascade;
+CREATE TABLE playlistxFaixa (
+id_playlistxFaixa smallint PRIMARY KEY,
+id_play smallint,
+id_faixa smallint,
+playXfaixa_lastPlayed date default NULL ,
+playXfaixa_played integer NOT NULL default 0,
+CONSTRAINT playX_FK_id_comp FOREIGN KEY (id_play) REFERENCES playlist (id_play),
+CONSTRAINT playX_FK_id_faixa FOREIGN KEY (id_faixa) REFERENCES faixa (id_faixa)
+);
+
+
+DROP VIEW IF EXISTS media_preço_albuns cascade;
+CREATE VIEW media_preço_albuns as
+select AVG(album_preço_compra) from album;
+
+DROP VIEW IF EXISTS musicas_album cascade;
+CREATE VIEW musicas_album as
+
+SELECT faixa_nome, faixa_tempo, album_nome, faixa_posicao
+FROM faixa, album e
+WHERE faixa_id_album = e.id_album;
+
+
+DROP VIEW IF EXISTS musicas_playlist cascade;
+CREATE VIEW musicas_playlist as
+
+SELECT faixa_nome, play_nome
+FROM faixa, playlist pl
+WHERE id_faixa in (select id_faixa from playlistXfaixa where id_play=pl.id_play);
+
+
+
+DROP VIEW IF EXISTS albuns_caros;
+CREATE VIEW albuns_caros as
+SELECT *
+FROM album
+WHERE (album_preço_compra)>(select AVG(album_preço_compra) from album);
+
+
+
+
+
+
+
+
+insert into gravadora VALUES (1, 'Globo', 'Organizações Globo', ARRAY[32411178], 'cu');
+insert into album VALUES (1, 'Mudança', 'Inquérito', '2018-11-20', false, 10.00, 1);
+insert into album VALUES (2, 'Corpo e Alma', 'Inquérito', '2018-11-20', false, 12.00, 1);
+insert into album VALUES (3, 'Welcome to the Jungle', 'GnR', '2018-11-20', false, 18.00, 1);
+insert into album VALUES (4, 'Night at the Opera', 'Queen', '2018-11-20', false, 20.00, 1);
+insert into album VALUES (5, 'O Glorioso Retorno de Quem Nunca Esteve Aqui', 'Emicida', '2018-11-20', false, 22.00, 1);
+insert into tipo_comp VALUES (1, 'RAP');
+insert into faixa VALUES (1,1,'Introdução', 1, 'Essa é pra', '00:04:38', false, 1);
+insert into faixa VALUES (2,1,'Um Brinde', 2, 'O etanol move os carros né', '00:03:25', false, 1);
+insert into faixa VALUES (3,2,'Corpo e Alma', 1, 'Emicida', '00:02:30', false, 1);
+insert into periodo VALUES (1,'1990-01-01',NULL,'Movimento Black');
+insert into compositor VALUES (1, 'Renan Inquérito','1986-09-03',NULL,1);
+insert into compositorXfaixa VALUES (1,1,1);
+insert into compositorXfaixa VALUES (2,1,2);
+insert into compositorXfaixa VALUES (3,1,3);
+insert into playlist VALUES (1,'Inquérito', '2018-11-20');
+insert into playlistXfaixa VALUES (1,1,1);
+insert into playlistXfaixa VALUES (2,1,2);
+insert into playlistXfaixa VALUES (3,1,3);
+
+
+
+
+SELECT * from musicas_playlist where play_nome= 'Inquérito';

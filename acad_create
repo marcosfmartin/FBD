@@ -1,0 +1,281 @@
+CREATE TABLE uni_academica(
+	cod_ua smallint not null,
+	nome varchar (50) not null,
+	estado varchar (50) not null,
+	cidade varchar (50) not null,
+	rua varchar (50) not null,
+	cep int not null
+);
+
+CREATE TABLE departamento(
+	cod_dep smallint not null,
+	nome varchar (50) not null,
+	estado varchar (50) not null,
+	cidade varchar (50) not null,
+	rua varchar (50) not null,
+	cep int not null,
+	cod_ua smallint not null
+);
+
+CREATE TABLE curso(
+	cod_curso smallint not null,
+	nome varchar (50) not null
+);
+
+CREATE TABLE disciplina(
+	cod_disc smallint not null,
+	nome varchar (50) not null,
+	credito smallint not null
+);
+
+CREATE TABLE aluno(
+	mat_aluno smallint not null,
+	nome varchar (50) not null,
+	cpf int not null,
+	rg int not null,
+	estado varchar (50) not null,
+	cidade varchar (50) not null,
+	rua varchar (50) not null,
+	cep int not null,
+	cod_curso smallint not null
+);
+
+CREATE TABLE professor(
+	mat_prof smallint not null,
+	nome varchar (50) not null,
+	cpf int not null,
+	rg int not null,
+	salario decimal (7, 2) not null,
+	estado varchar (50) not null,
+	cidade varchar (50) not null,
+	rua varchar (50) not null,
+	cep int not null,
+	cod_ua_diretor smallint,
+	cod_curso_coord smallint,
+	cod_dep_chefe smallint,
+	lotacao smallint not null
+);
+
+CREATE TABLE telefone_dep(
+	num_fone bigint not null,
+	cod_dep smallint not null,
+	tipo_fone varchar (10)
+);
+
+CREATE TABLE telefone_ua(
+	num_fone bigint not null,
+	cod_ua smallint not null,
+	tipo_fone varchar (10)
+);
+
+CREATE TABLE dep_curso(
+	cod_dep smallint not null,
+	cod_curso smallint not null
+);
+
+CREATE TABLE curso_disc(
+	cod_disc smallint not null,
+	cod_curso smallint not null
+);
+
+CREATE TABLE prof_disc(
+	mat_prof smallint not null,
+	cod_disc smallint not null,
+	semestre smallint not null
+);
+
+CREATE TABLE aluno_disc(
+	cod_disc smallint not null,
+	mat_aluno smallint not null,
+	semestre smallint not null,
+	ap1 decimal (4, 2), 
+	ap2 decimal (4, 2), 
+	af decimal (4, 2)
+);
+
+CREATE TABLE pre_req(
+	cod_disc smallint not null,
+	cod_pre_req smallint not null
+);
+
+------------| RESTRIÇÕES |---------------
+
+ALTER TABLE uni_academica
+	ADD CONSTRAINT pk_ua
+		PRIMARY KEY (cod_ua);
+
+ALTER TABLE departamento
+	ADD CONSTRAINT pk_dep
+		PRIMARY KEY (cod_dep);
+
+ALTER TABLE curso
+	ADD CONSTRAINT pk_curso
+		PRIMARY KEY (cod_curso);
+
+ALTER TABLE disciplina
+	ADD CONSTRAINT pk_disc
+		PRIMARY KEY (cod_disc);
+
+ALTER TABLE aluno
+	ADD CONSTRAINT pk_aluno
+		PRIMARY KEY (mat_aluno);
+
+ALTER TABLE departamento
+	ADD CONSTRAINT fk_dep_ua
+		FOREIGN KEY (cod_ua) REFERENCES uni_academica
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE aluno
+	ADD CONSTRAINT fk_aluno_curso
+		FOREIGN KEY (cod_curso) REFERENCES curso
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE aluno
+	ADD CONSTRAINT cpf_unique_aluno
+		UNIQUE (cpf);
+
+ALTER TABLE aluno
+	ADD CONSTRAINT rg_unique_aluno
+		UNIQUE (rg);
+
+ALTER TABLE professor
+	ADD CONSTRAINT pk_prof
+		PRIMARY KEY (mat_prof);
+
+ALTER TABLE professor
+	ADD CONSTRAINT fk_diretor
+		FOREIGN KEY (cod_ua_diretor) REFERENCES uni_academica
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE professor
+	ADD CONSTRAINT fk_coord
+		FOREIGN KEY (cod_curso_coord) REFERENCES curso
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE professor
+	ADD CONSTRAINT fk_chefe
+		FOREIGN KEY (cod_dep_chefe) REFERENCES departamento
+			ON DELETE NO ACTION
+			ON UPDATE NO ACTION;
+
+ALTER TABLE professor
+	ADD CONSTRAINT fk_lotacao
+		FOREIGN KEY (lotacao) REFERENCES departamento
+			ON DELETE NO ACTION
+			ON UPDATE NO ACTION;
+
+ALTER TABLE professor
+	ADD CONSTRAINT cpf_unique_prof
+		UNIQUE (cpf);
+
+ALTER TABLE professor
+	ADD CONSTRAINT rg_unique_prof
+		UNIQUE (rg);
+
+ALTER TABLE professor
+	ADD CONSTRAINT salario_valido
+		check (salario > 0);
+
+ALTER TABLE telefone_dep
+	ADD CONSTRAINT fk_tel_dep
+		FOREIGN KEY (cod_dep) REFERENCES departamento
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE telefone_dep
+	ADD CONSTRAINT pk_tel_dep
+		PRIMARY KEY (num_fone, cod_dep);
+
+ALTER TABLE telefone_ua
+	ADD CONSTRAINT fk_tel_ua
+		FOREIGN KEY (cod_ua) REFERENCES uni_academica
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE telefone_ua
+	ADD CONSTRAINT Pk_tel_ua
+		PRIMARY KEY (num_fone, cod_ua);
+
+ALTER TABLE dep_curso
+	ADD CONSTRAINT fk_depcurso_dep
+		FOREIGN KEY (cod_dep) REFERENCES departamento
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE dep_curso
+	ADD CONSTRAINT fk_depcurso_curso
+		FOREIGN KEY (cod_curso) REFERENCES curso
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE dep_curso
+	ADD CONSTRAINT pk_dep_curso
+		PRIMARY KEY (cod_dep, cod_curso);
+
+ALTER TABLE curso_disc
+	ADD CONSTRAINT fk_cursodisc_disc
+		FOREIGN KEY (cod_disc) REFERENCES disciplina
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE curso_disc
+	ADD CONSTRAINT fk_cursodisc_curso
+		FOREIGN KEY (cod_curso) REFERENCES curso
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE curso_disc
+	ADD CONSTRAINT pk_curso_disc
+		PRIMARY KEY (cod_disc, cod_curso);
+
+ALTER TABLE prof_disc
+	ADD CONSTRAINT fk_profdisc_disc
+		FOREIGN KEY (cod_disc) REFERENCES disciplina
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE prof_disc
+	ADD CONSTRAINT fk_profdisc_prof
+		FOREIGN KEY (mat_prof) REFERENCES professor
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE prof_disc
+	ADD CONSTRAINT pk_prof_disc
+		PRIMARY KEY (cod_disc, mat_prof, semestre);
+
+ALTER TABLE aluno_disc
+	ADD CONSTRAINT fk_alunodisc_disc
+		FOREIGN KEY (cod_disc) REFERENCES disciplina
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE aluno_disc
+	ADD CONSTRAINT fk_alunodisc_aluno
+		FOREIGN KEY (mat_aluno) REFERENCES aluno
+			ON DELETE NO ACTION
+			ON UPDATE CASCADE;
+
+ALTER TABLE aluno_disc
+	ADD CONSTRAINT pk_aluno_disc
+		PRIMARY KEY (cod_disc, mat_aluno, semestre);
+
+ALTER TABLE pre_req
+	ADD CONSTRAINT fk_prereq_disc
+		FOREIGN KEY (cod_disc) REFERENCES disciplina
+			ON DELETE NO ACTION
+			ON UPDATE NO ACTION;
+
+ALTER TABLE pre_req
+	ADD CONSTRAINT fk_prereq_pre_req
+		FOREIGN KEY (cod_pre_req) REFERENCES disciplina
+			ON DELETE NO ACTION
+			ON UPDATE NO ACTION;
+
+ALTER TABLE pre_req
+	ADD CONSTRAINT pk_pre_req
+		PRIMARY KEY (cod_disc, cod_pre_req);

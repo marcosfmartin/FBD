@@ -1,0 +1,153 @@
+--------------- RESTRIÇÃO PARA O PREÇO DO ALBUM ---------------------------------
+DROP FUNCTION IF EXISTS media_preço_albuns_ddd() cascade;
+CREATE OR REPLACE FUNCTION media_preço_albuns_ddd()
+    RETURNS decimal(12,2)
+    LANGUAGE 'plpgsql'
+AS $$
+declare media decimal(12,2) ;
+begin
+media = AVG(album_preço_compra) from album where id_album in (  --selecionar os albuns que todas as faixas são DDD
+																select id_album 
+																from album al 
+																left join faixa f on f.faixa_id_album=al.id_album 
+																group by al.id_album
+																having every (f.faixa_tipo_grav=true));
+return(media);
+end;
+$$;
+																			  
+DROP FUNCTION IF EXISTS preço_albuns_ddd() cascade;
+CREATE OR REPLACE FUNCTION preço_albuns_ddd()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+AS $BODY$
+declare media decimal(12,2) = media_preço_albuns_ddd();
+BEGIN
+   IF ((media is not NULL) AND NEW."album_preço_compra" > (3*(media))) THEN
+	  RAISE EXCEPTION 'Preço de % muito alto', NEW.album_nome;														
+   END IF;
+   RETURN NEW;
+END
+$BODY$;
+DROP TRIGGER IF EXISTS gat_preço on album cascade; 
+CREATE TRIGGER gat_preço
+BEFORE INSERT ON album
+    FOR EACH ROW
+    EXECUTE PROCEDURE preço_albuns_ddd();
+
+
+
+------------------------------ ITEM 3: RESTRIÇÃO DE QUE ALBUM NÃO PODE TER MAIS DE 64 FAIXAS ---------------------------------------------
+DROP FUNCTION IF EXISTS faixas64() cascade;
+CREATE OR REPLACE FUNCTION faixas64()
+RETURNS trigger AS
+$func$
+BEGIN
+   IF ((SELECT COUNT(*) from faixa where faixa_id_album=NEW.faixa_id_album)>64) THEN
+      RAISE EXCEPTION 'O álbum não pode ter mais que 64 faixas';
+   END IF;
+   RETURN NEW;
+END
+$func$  LANGUAGE plpgsql;															  															
+DROP TRIGGER IF EXISTS num_faixa_albuns on faixa;
+CREATE TRIGGER num_faixas_albuns 
+BEFORE INSERT ON faixa
+FOR EACH ROW EXECUTE PROCEDURE faixas64();
+
+
+------------------------------------------------------------------- ITEM 4: ÍNDICES---------------------------------------------------	
+DROP INDEX IF EXISTS indice_tcomp;
+CREATE INDEX indice_tcomp ON faixa (faixa_id_tcomp) WITH (fillfactor = 100);
+
+DROP INDEX IF EXISTS indice_album;
+CREATE INDEX indice_album ON faixa (faixa_id_album) WITH (fillfactor = 100);
+	
+	
+	
+------------------------------------------------------------------ ITEM 5: VISÃO MATERIALIZADA -------------------------------------------	
+DROP MATERIALIZED VIEW IF EXISTS playlist_album;
+CREATE MATERIALIZED VIEW playlist_album AS
+select play_nome as "Nome da Playlist", count (distinct faixa_id_album) as "Número de Álbuns"
+from playlist pl
+left outer join playlistXfaixa pxf
+on pl.id_play=pxf.id_play
+left outer join faixa f
+on f.id_faixa=pxf.id_faixa
+group by pl.id_play
+order by pl.id_play;
+
+------------------------------------------------------------------ITEM 6: FUNÇÃO QUE RETORNA O ALBUM DE CERTO COMPOSITOR-------------------
+CREATE OR REPLACE FUNCTION albuns_compositor(nome text)
+    RETURNS TABLE(nomecompositor text, album text) 
+    LANGUAGE 'plpgsql'
+AS $$
+begin	
+return query(
+select comp.comp_nome as NomeCompositor , al.album_nome as Album from album al
+inner join faixa f on al.id_album=f.faixa_id_album
+inner join compositorXfaixa cxf on cxf.id_faixa=f.id_faixa
+inner join compositor comp on cxf.id_comp = comp.id_comp
+where  comp_nome LIKE ('%' || nome || '%') 
+group by comp_nome, album_nome);
+
+end;
+$$;
+
+------------------------------------------------------------------------------- ITEM 9: CONSULTAS-------------------------------------------
+-- FUNÇÃO AUXILIAR	
+CREATE OR REPLACE FUNCTION media_preço_albuns ()
+returns decimal(12,2)
+as $$
+declare media decimal(12,2) ;
+begin
+media = AVG(album_preço_compra) from album;
+return(media);
+end;
+$$ LANGUAGE plpgsql;
+
+-- Primeira consulta
+DROP VIEW IF EXISTS albuns_caros;
+CREATE VIEW albuns_caros as
+SELECT *
+FROM album
+WHERE (album_preço_compra)>(media_preço_albuns());
+	
+	
+--Terceira consulta
+DROP VIEW IF EXISTS maior_compositor;
+CREATE VIEW maior_compositor as
+select comp_nome from compositor 
+where id_comp in (select id_comp from (select id_comp, count(cxf.id_comp) as contador
+                              from compositorXfaixa cxf
+                                right outer join playlistXfaixa pxf 
+                       on cxf.id_faixa=pxf.id_faixa
+                      group by id_comp
+                      order by contador desc
+                       limit 1
+          ) as maior_compositor);
+	
+	
+-- Quarta Consulta	
+	
+CREATE VIEW PlaylistConcerto as
+select play_nome from playlist pl
+inner join playlistXfaixa pxf on pl.id_play=pxf.id_play
+inner join faixa f on pxf.id_faixa=f.id_faixa
+group by play_nome
+having every (f.faixa_id_tcomp=2); --Retorna com tipo="Rock", pois não tem tipo="Concerto"
+
+
+
+
+
+
+
+              
+
+
+              
+              
+              
+
+
+							

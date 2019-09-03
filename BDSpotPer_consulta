@@ -1,0 +1,14 @@
+
+
+
+
+
+
+-- 5) select * from playlist_album;
+-- 6) select * from albuns_compositor('Paul')
+-- 9)A select * from albuns_caros;
+-- 9)C select * from maior_compositor;
+-- 9)D select * from playlistConcerto;
+
+
+--aplicação select * from playlist;
